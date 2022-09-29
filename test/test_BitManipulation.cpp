@@ -7,13 +7,13 @@
 using namespace bit_manipulation;
 namespace {
 template <typename T> void testAllOn(T bits) {
-  for (unsigned int bit = 0; bit < sizeof(bits); ++bit) {
+  for (unsigned int bit = 0; bit < sizeof(bits) * 8; ++bit) {
     TEST_ASSERT(test(bits, bit));
   }
 }
 
 template <typename T> void testAllOff(T bits) {
-  for (unsigned int bit = 0; bit < sizeof(bits); ++bit) {
+  for (unsigned int bit = 0; bit < sizeof(bits) * 8; ++bit) {
     TEST_ASSERT(!test(bits, bit));
   }
 }
@@ -21,7 +21,7 @@ template <typename T> void testAllOff(T bits) {
 
 void test_bit_on() {
 
-  int bits = 0;
+  unsigned int bits = 0;
 
   TEST_ASSERT(bits == 0);
   on(bits, 0);
@@ -29,7 +29,7 @@ void test_bit_on() {
   TEST_ASSERT(bits == 1 << 0);
 
   bits = 0;
-  for (unsigned int bit = 0; bit < sizeof(bits); ++bit) {
+  for (unsigned int bit = 0; bit < sizeof(bits) * 8; ++bit) {
     on(bits, bit);
     TEST_ASSERT(bits > 0);
     TEST_ASSERT(test(bits, bit));
@@ -41,27 +41,27 @@ void test_bit_on() {
 void test_bit_off() {
 
   int bits = 0;
-  for (unsigned int bit = 0; bit < sizeof(bits); ++bit) {
+  for (unsigned int bit = 0; bit < sizeof(bits) * 8; ++bit) {
     on(bits, bit);
-
-    for (unsigned int bit = 0; bit < sizeof(bits); ++bit) {
-      off(bits, bit);
-      TEST_ASSERT(!test(bits, bit));
-    }
   }
+
+  for (unsigned int bit = 0; bit < sizeof(bits) * 8; ++bit) {
+    off(bits, bit);
+    TEST_ASSERT(!test(bits, bit));
+  }
+
   testAllOff(bits);
 }
 
 void test_bit_toggle() {
-  using namespace bit_manipulation;
   int bits = 0;
-  for (unsigned int bit = 0; bit < sizeof(bits); ++bit) {
+  for (unsigned int bit = 0; bit < sizeof(bits) * 8; ++bit) {
     toggle(bits, bit);
     TEST_ASSERT(test(bits, bit));
   }
   testAllOn(bits);
 
-  for (unsigned int bit = 0; bit < sizeof(bits); ++bit) {
+  for (unsigned int bit = 0; bit < sizeof(bits) * 8; ++bit) {
     toggle(bits, bit);
     TEST_ASSERT(!test(bits, bit));
   }
@@ -83,7 +83,7 @@ void testSetSpeed() {
   auto f2 = micros();
   TEST_ASSERT((f1 - s1) > 0);
   TEST_ASSERT((f2 - s2) > 0);
-  TEST_ASSERT_INT_WITHIN(7, f1 - s1, f2 - s2);
+  TEST_ASSERT_INT_WITHIN(0, f1 - s1, f2 - s2);
 }
 
 void setup() {

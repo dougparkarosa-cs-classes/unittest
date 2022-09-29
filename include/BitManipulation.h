@@ -1,4 +1,5 @@
-#ifndef BIT_MANIPULATION_H
+#ifndef BITMANIPULATION_H
+#define BITMANIPULATION_H
 /// \brief Functions to manipulate bits.
 namespace bit_manipulation {
 
@@ -34,5 +35,5 @@ template <typename T> void toggle(T &value, unsigned int bit) {
 template <typename T> bool test(const T &value, unsigned int bit) {
   return (value & (1 << bit)) != 0;
 }
-} // namespace bit
-#endif // BIT_MANIPULATION_H
+} // namespace bit_manipulation
+#endif // BITMANIPULATION_H
